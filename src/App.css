@@ -1,0 +1,53 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #edecea;
+  min-height: 100vh;
+  color: #111;
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+[data-anim] {
+  opacity: 0;
+}
+
+image-slot {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes gridFade {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+@keyframes doodleFloat {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-18px) rotate(3deg); }
+}
+@keyframes doodleFloatB {
+  0%, 100% { transform: translateY(0px) rotate(4deg); }
+  50%       { transform: translateY(15px) rotate(-3deg); }
+}
+@keyframes doodleWiggle {
+  0%, 100% { transform: rotate(-10deg) scale(1); }
+  25%       { transform: rotate(11deg) scale(1.08); }
+  70%       { transform: rotate(-6deg) scale(0.94); }
+}
+@keyframes doodleSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.cf-input::placeholder { color: rgba(255,255,255,0.28); }
+.cf-input:focus { border-color: rgba(197,239,94,0.5); }
