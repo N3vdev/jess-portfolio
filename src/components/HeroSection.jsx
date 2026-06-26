@@ -71,7 +71,7 @@ export default function HeroSection() {
           objectFit: 'cover', zIndex: 1, pointerEvents: 'none',
         }}
       >
-        <source src="/hero_edit_web.mp4" type="video/mp4" />
+        <source src="./hero_edit_web.mp4" type="video/mp4" />
       </video>
 
       {/* Bottom gradient */}
