@@ -7,11 +7,11 @@ export const posts = [
     date: 'Jun 2025',
     read: '5 min',
     image: 'Assets/card-1.jpg',
-    bg: '#111',
-    pill: '#c5ef5e',
-    pillText: '#111',
+    bg: '#123E7A',
+    pill: '#F7D7DC',
+    pillText: '#123E7A',
     text: '#fff',
-    sub: 'rgba(255,255,255,0.5)',
+    sub: 'rgba(255,255,255,0.6)',
     featured: true,
     body: `At 14,000 feet, there is no rehearsing. The door opens, the wind hits your face, and the only thing left to do is decide.
 
@@ -51,11 +51,11 @@ And I ask myself: what am I waiting for?`,
     date: 'May 2025',
     read: '4 min',
     image: 'Assets/card-4.jpg',
-    bg: '#fff',
-    pill: '#111',
+    bg: '#F3F5F7',
+    pill: '#123E7A',
     pillText: '#fff',
-    text: '#111',
-    sub: 'rgba(0,0,0,0.38)',
+    text: '#2F343A',
+    sub: 'rgba(47,52,58,0.55)',
     body: `There's a version of me that exists on paper: treasury professional, certified, responsible for cash flow and financial risk. And there's the version that jumps out of planes on weekends.
 
 People find that combination surprising. I find it inevitable.
@@ -88,11 +88,11 @@ Risk isn't the opposite of responsibility. Done well, it's the practice of it.`,
     date: 'Apr 2025',
     read: '6 min',
     image: 'Assets/card-2.jpg',
-    bg: '#6282ec',
-    pill: '#dce4fa',
-    pillText: '#111',
-    text: '#fff',
-    sub: 'rgba(255,255,255,0.5)',
+    bg: '#F7D7DC',
+    pill: '#123E7A',
+    pillText: '#fff',
+    text: '#123E7A',
+    sub: 'rgba(18,62,122,0.6)',
     body: `I've chartered three Toastmasters clubs. The first one nearly broke me. The second one taught me everything. The third one felt like breathing.
 
 Here's what I learned.
@@ -131,11 +131,11 @@ If you're thinking about starting a club, start with the email. The rest figures
     date: 'Mar 2025',
     read: '3 min',
     image: 'Assets/card-5.jpg',
-    bg: '#c5ef5e',
-    pill: '#111',
-    pillText: '#fff',
-    text: '#111',
-    sub: 'rgba(0,0,0,0.38)',
+    bg: '#8FAE98',
+    pill: '#fff',
+    pillText: '#2D6B50',
+    text: '#fff',
+    sub: 'rgba(255,255,255,0.7)',
     body: `I gave a terrible speech once. I mean genuinely bad — shaking hands, lost train of thought, forgot the ending, thanked people for listening to what was essentially a four-minute ramble about a topic I clearly hadn't prepared for.
 
 I sat down. Someone gave me feedback. I came back the next week.

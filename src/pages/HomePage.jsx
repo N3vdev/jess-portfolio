@@ -1,309 +1,226 @@
-import { useEffect } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import HeroSection from '../components/HeroSection'
-import ScrollTextSection from '../components/ScrollTextSection'
-import WorkGallery from '../components/WorkGallery'
-import SwipeableDeck from '../components/SwipeableDeck'
-import ServiceCards from '../components/ServiceCards'
-import ContactSection from '../components/ContactSection'
+import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+
+const PILLARS = [
+  {
+    to: '/treasury',
+    label: 'Treasury',
+    color: '#EAF0FB',
+    accent: '#123E7A',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#123E7A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+      </svg>
+    ),
+    desc: 'Driving financial excellence through strategic treasury management and operational efficiency.',
+  },
+  {
+    to: '/speaking',
+    label: 'Speaking & Leadership',
+    color: '#FDF0F2',
+    accent: '#8B3A52',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8B3A52" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+      </svg>
+    ),
+    desc: 'Empowering individuals and organizations through the power of communication and leadership.',
+  },
+  {
+    to: '/adventures',
+    label: 'Adventures',
+    color: '#F0F7F4',
+    accent: '#2D6B50',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2D6B50" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="3 17 12 3 21 17"/><line x1="3" y1="17" x2="21" y2="17"/>
+      </svg>
+    ),
+    desc: 'Embracing new challenges, exploring the unknown, and living life beyond comfort zones.',
+  },
+  {
+    to: '/health',
+    label: 'Health & Fitness',
+    color: '#FEF6EE',
+    accent: '#C07A3A',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C07A3A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    ),
+    desc: 'Building discipline, strength, and resilience through fitness and healthy habits.',
+  },
+]
 
 export default function HomePage() {
-  useEffect(() => {
-    const ease = 'power3.out'
-    const tl = gsap.timeline()
-
-    tl
-      .fromTo('[data-anim="nav-logo"]',
-        { opacity: 0, x: -20 },
-        { opacity: 1, x: 0, duration: 0.55, ease }
-      )
-      .fromTo('[data-anim="nav-brand"]',
-        { opacity: 0, y: -16 },
-        { opacity: 1, y: 0, duration: 0.6, ease },
-        '<0.07'
-      )
-      .fromTo('[data-anim="nav-wa"]',
-        { opacity: 0, x: 20 },
-        { opacity: 1, x: 0, duration: 0.55, ease },
-        '<0'
-      )
-      .fromTo('[data-anim="hero-frame"]',
-        { opacity: 0, scale: 0.974, y: 12 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.95, ease },
-        '<0.1'
-      )
-      .fromTo('[data-anim="headline"]',
-        { opacity: 0, y: 48 },
-        { opacity: 1, y: 0, duration: 0.82, ease },
-        '<0.52'
-      )
-      .fromTo('[data-anim="sparkle"]',
-        { opacity: 0, scale: 0, rotation: -32 },
-        { opacity: 1, scale: 1, rotation: 0, duration: 0.48, ease: 'back.out(2.2)' },
-        '-=0.24'
-      )
-
-    gsap.to('[data-anim="hero-frame"]', {
-      yPercent: -7,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '[data-anim="hero-frame"]',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.4,
-      },
-    })
-
-    // Section 2: letter-drop scroll animation
-    const s2Text = document.getElementById('s2-text')
-    if (s2Text) {
-      const raw = s2Text.textContent
-      s2Text.innerHTML = ''
-      const letters2 = []
-      for (let ci = 0; ci < raw.length; ci++) {
-        const lsp = document.createElement('span')
-        lsp.textContent = raw[ci]
-        lsp.style.display = 'inline-block'
-        lsp.style.willChange = 'transform, opacity'
-        if (raw[ci] === ' ') lsp.style.width = '0.55em'
-        s2Text.appendChild(lsp)
-        letters2.push(lsp)
-      }
-
-      const vw = window.innerWidth
-      const textW = s2Text.offsetWidth
-      const startX = vw * 1.08
-      const endX = -(textW + vw * 0.35)
-      const travel = startX - endX
-      const tlDur = 1.0
-      const dropDur = 0.055
-
-      const s2tl = gsap.timeline({ defaults: { ease: 'none' } })
-      s2tl.fromTo('#s2-track', { x: startX }, { x: endX, duration: tlDur }, 0)
-      gsap.set(letters2, { y: -200, x: 40, opacity: 0, rotation: 24 })
-
-      letters2.forEach((lsp, li) => {
-        const letterPx = lsp.offsetLeft
-        let enterProg = (startX + letterPx - vw) / travel
-        enterProg = Math.max(0, Math.min(tlDur - dropDur, enterProg))
-        const landY = 0
-        const landR = Math.sin(li * 0.44) * 16
-        const startR = 24 + Math.sin(li * 1.6) * 12
-        s2tl.fromTo(
-          lsp,
-          { y: -200, x: 40, opacity: 0, rotation: startR },
-          { y: landY, x: 0, opacity: 1, rotation: landR, duration: dropDur, ease: 'power3.out' },
-          enterProg
-        )
-      })
-
-      s2tl.fromTo('#s2-s1', { x: vw * 0.5, opacity: 0 }, { x: -vw * 0.85, opacity: 1, duration: 1.0 }, 0)
-      s2tl.fromTo('#s2-s2', { x: vw * 0.38, opacity: 0 }, { x: -vw * 0.68, opacity: 1, duration: 1.0 }, 0)
-      s2tl.fromTo('#s2-s3', { x: vw * 0.24, opacity: 0 }, { x: -vw * 0.46, opacity: 1, duration: 1.0 }, 0)
-
-      ScrollTrigger.create({
-        animation: s2tl,
-        trigger: '#s2-wrap',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.2,
-      })
-    }
-
-    // Section 3: magnetic card hover
-    const allCards = Array.from(document.querySelectorAll('[data-card]'))
-    allCards.forEach((card, idx) => {
-      gsap.set(card, { transformPerspective: 900 })
-      const xTo  = gsap.quickTo(card, 'x',       { duration: 0.5, ease: 'power3.out' })
-      const yTo  = gsap.quickTo(card, 'y',       { duration: 0.5, ease: 'power3.out' })
-      const ryTo = gsap.quickTo(card, 'rotateY', { duration: 0.5, ease: 'power3.out' })
-      const rxTo = gsap.quickTo(card, 'rotateX', { duration: 0.5, ease: 'power3.out' })
-      let cachedRect = null
-
-      const ripple = (nx, ny) => {
-        allCards.forEach((other, oi) => {
-          if (other === card) return
-          const dist = Math.abs(oi - idx)
-          if (dist > 2) return
-          const f = dist === 1 ? 0.28 : 0.12
-          const dir = oi < idx ? -1 : 1
-          gsap.to(other, { x: dir * nx * 6 * f, y: ny * 4 * f, rotateY: dir * nx * 2 * f, rotateX: -ny * 1.5 * f, duration: 0.5, ease: 'power2.out', overwrite: 'auto' })
-        })
-      }
-
-      const resetRipple = () => {
-        allCards.forEach((other) => {
-          if (other === card) return
-          gsap.to(other, { x: 0, y: 0, rotateX: 0, rotateY: 0, duration: 0.8, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' })
-        })
-      }
-
-      card.addEventListener('mouseenter', (e) => {
-        cachedRect = card.getBoundingClientRect()
-        const cx = cachedRect.left + cachedRect.width / 2
-        const cy = cachedRect.top + cachedRect.height / 2
-        const dx = e.clientX - cx, dy = e.clientY - cy
-        let px = 0, py = 0
-        if (Math.abs(dx) >= Math.abs(dy)) px = dx < 0 ? 8 : -8
-        else py = dy < 0 ? 6 : -6
-        gsap.killTweensOf(card)
-        gsap.fromTo(card, { x: 0, y: 0 }, { x: px, y: py, duration: 0.18, ease: 'power2.out' })
-      })
-      card.addEventListener('mousemove', (e) => {
-        if (!cachedRect) return
-        const nx = (e.clientX - cachedRect.left - cachedRect.width / 2) / (cachedRect.width / 2)
-        const ny = (e.clientY - cachedRect.top - cachedRect.height / 2) / (cachedRect.height / 2)
-        xTo(nx * 8); yTo(ny * 5); ryTo(nx * 6); rxTo(-ny * 4)
-        ripple(nx, ny)
-      })
-      card.addEventListener('mouseleave', () => {
-        cachedRect = null
-        gsap.to(card, { x: 0, y: 0, rotateX: 0, rotateY: 0, duration: 0.75, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' })
-        resetRipple()
-      })
-    })
-
-    // Section 4: swipeable deck
-    const s4Cards = [1, 2, 3, 4, 5, 6].map((i) => document.getElementById(`s4-c${i}`)).filter(Boolean)
-    const s4Hint = document.getElementById('s4-hint')
-    const s4Section = document.getElementById('s4')
-    const N4 = s4Cards.length
-    let front4 = 0
-
-    const SLOT4 = [
-      { x: 0,    y: 0,  r: 0,   z: 10 },
-      { x: 120,  y: 28, r: 16,  z: 5 },
-      { x: 210,  y: 56, r: 28,  z: 3 },
-      { x: 0,    y: 76, r: 0,   z: 1 },
-      { x: -210, y: 56, r: -28, z: 2 },
-      { x: -120, y: 28, r: -16, z: 4 },
-    ]
-
-    const placeDeck4 = (animate) => {
-      s4Cards.forEach((card, i) => {
-        const rel = (i - front4 + N4) % N4
-        const sl = SLOT4[rel]
-        const isFront = rel === 0
-        card.style.border = isFront ? '3px solid rgba(255,255,255,0.92)' : '3px solid rgba(255,255,255,0.5)'
-        card.style.cursor = isFront ? 'grab' : 'default'
-        card._s4front = isFront
-        const shadow = isFront ? '0 28px 80px rgba(0,0,0,0.95)' : '0 10px 36px rgba(0,0,0,0.55)'
-        if (animate) gsap.to(card, { x: sl.x, y: sl.y, rotation: sl.r, zIndex: sl.z, boxShadow: shadow, duration: 0.38, ease: 'power3.out', overwrite: 'auto' })
-        else gsap.set(card, { x: sl.x, y: sl.y, rotation: sl.r, zIndex: sl.z, boxShadow: shadow })
-      })
-    }
-
-    if (s4Cards.length && s4Section) {
-      placeDeck4(false)
-      let drag4Active = false, drag4StartX = 0, drag4CurX = 0
-
-      const onPointerDown = (e) => {
-        e.preventDefault()
-        const fc = s4Cards[front4]
-        if (!fc || !fc._s4front) return
-        const rect = fc.getBoundingClientRect()
-        if (e.clientX < rect.left - 10 || e.clientX > rect.right + 10 || e.clientY < rect.top - 10 || e.clientY > rect.bottom + 10) return
-        drag4Active = true; drag4StartX = e.clientX; drag4CurX = 0
-        s4Section.setPointerCapture(e.pointerId)
-        fc.style.cursor = 'grabbing'
-        if (s4Hint) s4Hint.style.opacity = '0'
-        gsap.killTweensOf(fc)
-      }
-      const onPointerMove = (e) => {
-        if (!drag4Active) return
-        drag4CurX = e.clientX - drag4StartX
-        gsap.set(s4Cards[front4], { x: drag4CurX, y: Math.abs(drag4CurX) * 0.05, rotation: drag4CurX * 0.055, zIndex: 10 })
-      }
-      const onPointerUp = () => {
-        if (!drag4Active) return
-        drag4Active = false
-        const fc = s4Cards[front4]
-        if (Math.abs(drag4CurX) > 55) {
-          front4 = drag4CurX > 0 ? (front4 - 1 + N4) % N4 : (front4 + 1) % N4
-          placeDeck4(true)
-        } else {
-          gsap.to(fc, { x: 0, y: 0, rotation: 0, duration: 0.4, ease: 'power3.out' })
-          fc.style.cursor = 'grab'
-        }
-        drag4CurX = 0
-      }
-      const onPointerCancel = () => {
-        if (!drag4Active) return
-        drag4Active = false
-        gsap.to(s4Cards[front4], { x: 0, y: 0, rotation: 0, duration: 0.75, ease: 'elastic.out(1, 0.6)' })
-      }
-      const onMouseMove4 = (e) => {
-        if (drag4Active || !s4Hint) return
-        const fc = s4Cards[front4]
-        if (!fc) return
-        const rect = fc.getBoundingClientRect()
-        const over = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom
-        const sr = s4Section.getBoundingClientRect()
-        s4Hint.style.left = (e.clientX - sr.left) + 'px'
-        s4Hint.style.top  = (e.clientY - sr.top)  + 'px'
-        s4Hint.style.opacity = over ? '1' : '0'
-      }
-      const onMouseLeave4 = () => { if (s4Hint) s4Hint.style.opacity = '0' }
-
-      s4Section.addEventListener('pointerdown', onPointerDown)
-      s4Section.addEventListener('pointermove', onPointerMove)
-      s4Section.addEventListener('pointerup', onPointerUp)
-      s4Section.addEventListener('pointercancel', onPointerCancel)
-      s4Section.addEventListener('mousemove', onMouseMove4)
-      s4Section.addEventListener('mouseleave', onMouseLeave4)
-    }
-
-    // Section 5: fanned card hover
-    const s5Cards = Array.from(document.querySelectorAll('.s5c'))
-    const s5Stage = document.getElementById('s5-stage')
-
-    if (s5Cards.length && s5Stage) {
-      const S5DEF = [
-        { x: -440, y: 24, r: -13 },
-        { x: -220, y: 6,  r: -5 },
-        { x: 0,    y: -8, r: 2 },
-        { x: 220,  y: 6,  r: 8 },
-        { x: 440,  y: 24, r: 14 },
-      ]
-      s5Cards.forEach((card, i) => {
-        gsap.set(card, { x: S5DEF[i].x, y: S5DEF[i].y, rotation: S5DEF[i].r, zIndex: i + 1, boxShadow: i === 2 ? '0 20px 60px rgba(0,0,0,0.18)' : '0 10px 36px rgba(0,0,0,0.12)' })
-        card.addEventListener('mouseenter', () => {
-          s5Cards.forEach((other, j) => {
-            const dist = j - i
-            gsap.to(other, { x: S5DEF[j].x + dist * 200, y: dist === 0 ? -22 : S5DEF[j].y + Math.abs(dist) * 6, rotation: dist === 0 ? 0 : S5DEF[j].r + dist * 3, zIndex: dist === 0 ? 10 : 5 - Math.abs(dist), scale: dist === 0 ? 1.05 : 1, boxShadow: dist === 0 ? '0 32px 90px rgba(0,0,0,0.26)' : '0 6px 22px rgba(0,0,0,0.08)', duration: 0.4, ease: 'power3.out', overwrite: 'auto' })
-          })
-        })
-      })
-      s5Stage.addEventListener('mouseleave', () => {
-        s5Cards.forEach((card, i) => {
-          gsap.to(card, { x: S5DEF[i].x, y: S5DEF[i].y, rotation: S5DEF[i].r, zIndex: i + 1, scale: 1, boxShadow: '0 10px 36px rgba(0,0,0,0.14)', duration: 0.5, ease: 'power3.out', overwrite: 'auto' })
-        })
-      })
-    }
-
-    // Restore scroll position when returning from blogs
-    const savedY = sessionStorage.getItem('returnScrollY')
-    if (savedY) {
-      sessionStorage.removeItem('returnScrollY')
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: parseInt(savedY, 10), behavior: 'instant' })
-      })
-    }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-    }
-  }, [])
-
   return (
-    <div style={{ minHeight: '100vh', padding: '10px', display: 'flex', flexDirection: 'column', gap: 0 }}>
-      <HeroSection />
-      <ScrollTextSection />
-      <WorkGallery />
-      <SwipeableDeck />
-      <ServiceCards />
-      <ContactSection />
+    <div style={{ minHeight: '100vh', background: '#FCFAF8' }}>
+      <Navbar />
+
+      {/* Hero */}
+      <section style={{
+        maxWidth: '1200px', margin: '0 auto',
+        padding: '80px 32px 80px',
+        display: 'grid', gridTemplateColumns: '58% 42%',
+        alignItems: 'center', gap: '48px', minHeight: '88vh',
+      }}>
+        <div>
+          <p style={{
+            fontFamily: "'Manrope', sans-serif", fontSize: '12px', fontWeight: 700,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: '#F7D7DC', background: '#123E7A',
+            display: 'inline-block', padding: '5px 14px', borderRadius: '999px',
+            marginBottom: '24px',
+          }}>Welcome to My Journey</p>
+
+          <h1 style={{
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: 'clamp(38px, 5vw, 68px)',
+            fontWeight: 800, color: '#123E7A',
+            lineHeight: 1.08, letterSpacing: '-0.02em',
+            marginBottom: '20px',
+          }}>
+            Building a<br />Stronger Me<span style={{ color: '#F7D7DC' }}>.</span>
+          </h1>
+
+          <p style={{
+            fontFamily: "'Inter', sans-serif", fontSize: 'clamp(15px, 1.3vw, 18px)',
+            color: '#2F343A', lineHeight: 1.7, marginBottom: '28px', maxWidth: '460px',
+          }}>
+            Through finance, leadership, adventure, and continuous growth.
+          </p>
+
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '36px' }}>
+            {['Treasury Manager', 'Speaker', 'Toastmasters Leader', 'Adventurer'].map(tag => (
+              <span key={tag} style={{
+                fontFamily: "'Manrope', sans-serif", fontSize: '12px', fontWeight: 600,
+                color: '#123E7A', background: '#EAF0FB',
+                padding: '6px 14px', borderRadius: '999px',
+                border: '1px solid rgba(18,62,122,0.15)',
+              }}>{tag}</span>
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
+            <Link to="/about" style={{
+              background: '#123E7A', color: '#fff',
+              padding: '14px 28px', borderRadius: '999px',
+              fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700,
+              display: 'inline-block',
+            }}>Explore My Journey</Link>
+            <Link to="/treasury" style={{
+              background: 'transparent', color: '#123E7A',
+              padding: '14px 28px', borderRadius: '999px',
+              fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700,
+              border: '1.5px solid #123E7A', display: 'inline-block',
+            }}>Learn More →</Link>
+          </div>
+        </div>
+
+        <div style={{ position: 'relative' }}>
+          <div style={{
+            borderRadius: '24px', overflow: 'hidden',
+            boxShadow: '0 24px 80px rgba(18,62,122,0.16)',
+            aspectRatio: '4/5',
+          }}>
+            <img src="Assets/card-6.jpg" alt="Jessly Chettaniyal"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </div>
+          <div style={{
+            position: 'absolute', bottom: '-16px', left: '-16px',
+            background: '#F7D7DC', borderRadius: '16px',
+            padding: '14px 20px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          }}>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '22px', fontWeight: 800, color: '#123E7A' }}>10+</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: '#2F343A' }}>Years in Treasury</p>
+          </div>
+          <div style={{
+            position: 'absolute', top: '20px', right: '-16px',
+            background: '#fff', borderRadius: '16px',
+            padding: '14px 20px',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+            border: '1px solid rgba(18,62,122,0.08)',
+          }}>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '22px', fontWeight: 800, color: '#123E7A' }}>15+</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: '#2F343A' }}>Clubs Chartered</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pillars */}
+      <section style={{ background: '#F3F5F7', padding: '80px 32px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#C07A3A', textAlign: 'center', marginBottom: '12px' }}>What Drives Me</p>
+          <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(28px, 3vw, 42px)', fontWeight: 800, color: '#123E7A', textAlign: 'center', letterSpacing: '-0.02em', marginBottom: '48px' }}>Four Pillars. One Purpose.</h2>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+            {PILLARS.map(p => (
+              <Link key={p.to} to={p.to} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: p.color, borderRadius: '20px',
+                  padding: '28px 24px 24px',
+                  border: `1px solid ${p.accent}22`,
+                  height: '100%',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.10)' }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
+                >
+                  <div style={{ marginBottom: '16px' }}>{p.icon}</div>
+                  <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '16px', fontWeight: 800, color: '#123E7A', marginBottom: '10px' }}>{p.label}</h3>
+                  <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: '#2F343A', lineHeight: 1.65, marginBottom: '18px' }}>{p.desc}</p>
+                  <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: '13px', fontWeight: 700, color: p.accent }}>Explore →</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quote strip */}
+      <section style={{ background: '#F7D7DC', padding: '48px 32px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <svg width="24" height="18" viewBox="0 0 24 18" fill="#123E7A" opacity="0.3"><path d="M0 18V10.8C0 4.68 3.6 1.08 10.8 0l1.44 2.16C8.76 3.12 6.72 5.28 6 9H10.8V18H0zM13.2 18V10.8C13.2 4.68 16.8 1.08 24 0l1.44 2.16c-3.48.96-5.52 3.12-6.24 6.84H24V18H13.2z"/></svg>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontStyle: 'italic', fontSize: 'clamp(16px, 2vw, 22px)', color: '#123E7A', fontWeight: 500 }}>
+              Growth is not a destination. It's a lifestyle.
+            </p>
+          </div>
+          <span style={{ fontFamily: "'Caveat', cursive", fontSize: '28px', fontWeight: 700, color: '#123E7A' }}>Jessly</span>
+        </div>
+      </section>
+
+      {/* Blog teaser */}
+      <section style={{ padding: '80px 32px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
+          <div>
+            <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#C07A3A', marginBottom: '10px' }}>Growth Journal</p>
+            <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(24px, 2.5vw, 36px)', fontWeight: 800, color: '#123E7A', letterSpacing: '-0.02em' }}>Stories from the journey.</h2>
+          </div>
+          <Link to="/blogs" style={{
+            background: 'transparent', color: '#123E7A',
+            padding: '13px 28px', borderRadius: '999px',
+            fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700,
+            border: '1.5px solid #123E7A', display: 'inline-block', whiteSpace: 'nowrap',
+          }}>Read the Journal →</Link>
+        </div>
+      </section>
+
+      <Footer />
+
+      <style>{`
+        @media (max-width: 860px) {
+          section:first-of-type { grid-template-columns: 1fr !important; min-height: auto !important; }
+        }
+        @media (max-width: 720px) {
+          .pillars-grid { grid-template-columns: repeat(2,1fr) !important; }
+        }
+        @media (max-width: 480px) {
+          .pillars-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   )
 }

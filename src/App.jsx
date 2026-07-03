@@ -1,15 +1,17 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
+import TreasuryPage from './pages/TreasuryPage'
+import SpeakingPage from './pages/SpeakingPage'
+import AdventuresPage from './pages/AdventuresPage'
+import HealthPage from './pages/HealthPage'
+import ContactPage from './pages/ContactPage'
 import BlogsPage from './pages/BlogsPage'
 import BlogPostPage from './pages/BlogPostPage'
 import AdminLoginPage from './pages/AdminLoginPage'
 import AdminDashboardPage from './pages/AdminDashboardPage'
 import AdminEditPage from './pages/AdminEditPage'
-
-gsap.registerPlugin(ScrollTrigger)
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -23,16 +25,22 @@ function ScrollToTop() {
 export default function App() {
   return (
     <>
-    <ScrollToTop />
-    <Routes>
-      <Route path="/"            element={<HomePage />} />
-      <Route path="/blogs"       element={<BlogsPage />} />
-      <Route path="/blogs/:slug"        element={<BlogPostPage />} />
-      <Route path="/admin"               element={<AdminLoginPage />} />
-      <Route path="/admin/dashboard"     element={<AdminDashboardPage />} />
-      <Route path="/admin/post/new"      element={<AdminEditPage />} />
-      <Route path="/admin/post/edit/:slug" element={<AdminEditPage />} />
-    </Routes>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/"                         element={<HomePage />} />
+        <Route path="/about"                    element={<AboutPage />} />
+        <Route path="/treasury"                 element={<TreasuryPage />} />
+        <Route path="/speaking"                 element={<SpeakingPage />} />
+        <Route path="/adventures"               element={<AdventuresPage />} />
+        <Route path="/health"                   element={<HealthPage />} />
+        <Route path="/contact"                  element={<ContactPage />} />
+        <Route path="/blogs"                    element={<BlogsPage />} />
+        <Route path="/blogs/:slug"              element={<BlogPostPage />} />
+        <Route path="/admin"                    element={<AdminLoginPage />} />
+        <Route path="/admin/dashboard"          element={<AdminDashboardPage />} />
+        <Route path="/admin/post/new"           element={<AdminEditPage />} />
+        <Route path="/admin/post/edit/:slug"    element={<AdminEditPage />} />
+      </Routes>
     </>
   )
 }
