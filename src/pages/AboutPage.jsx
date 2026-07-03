@@ -29,7 +29,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div style={{ borderRadius: '20px 20px 0 0', overflow: 'hidden', height: '420px' }}>
-            <img src="Assets/card-7.jpg" alt="Jessly" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src="Assets/card-7.jpg" alt="Jessly" fetchpriority="high" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
         </div>
       </section>

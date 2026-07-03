@@ -32,7 +32,7 @@ export default function HealthPage() {
             </p>
           </div>
           <div style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 60px rgba(0,0,0,0.10)', aspectRatio: '3/4' }}>
-            <img src="Assets/card-8.png" alt="Health and fitness" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src="Assets/card-8.png" alt="Health and fitness" fetchpriority="high" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
         </div>
       </section>

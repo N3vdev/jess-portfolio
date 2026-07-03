@@ -98,7 +98,7 @@ export default function BlogPostPage() {
 
         {post.image && (
           <div style={{ marginBottom: '44px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(18,62,122,0.12)' }}>
-            <img src={post.image} alt={post.title} style={{ width: '100%', maxHeight: '460px', objectFit: 'cover', display: 'block' }} />
+            <img src={post.image} alt={post.title} loading="lazy" style={{ width: '100%', maxHeight: '460px', objectFit: 'cover', display: 'block' }} />
           </div>
         )}
 

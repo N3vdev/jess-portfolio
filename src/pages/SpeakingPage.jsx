@@ -31,7 +31,7 @@ export default function SpeakingPage() {
             <Link to="/contact" style={{ background: '#123E7A', color: '#fff', padding: '13px 28px', borderRadius: '999px', fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700, display: 'inline-block', textDecoration: 'none' }}>Invite Me to Speak</Link>
           </div>
           <div style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 60px rgba(0,0,0,0.10)', aspectRatio: '4/3' }}>
-            <img src="Assets/card-2.jpg" alt="Jessly speaking" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src="Assets/card-2.jpg" alt="Jessly speaking" fetchpriority="high" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
         </div>
       </section>

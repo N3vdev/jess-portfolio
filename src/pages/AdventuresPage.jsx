@@ -34,7 +34,7 @@ export default function AdventuresPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             {['card-1.jpg', 'card-3.png', 'card-4.jpg', 'card-5.jpg'].map((img, i) => (
               <div key={img} style={{ borderRadius: '16px', overflow: 'hidden', aspectRatio: i === 0 ? '1/1.2' : '1/1', gridRow: i === 0 ? 'span 1' : '' }}>
-                <img src={`Assets/${img}`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <img src={`Assets/${img}`} alt="" loading={i === 0 ? 'eager' : 'lazy'} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               </div>
             ))}
           </div>

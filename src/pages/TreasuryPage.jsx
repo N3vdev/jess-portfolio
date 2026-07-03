@@ -25,7 +25,7 @@ export default function TreasuryPage() {
             </p>
           </div>
           <div style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 60px rgba(18,62,122,0.12)', aspectRatio: '4/3' }}>
-            <img src="Assets/card-9.png" alt="Treasury" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src="Assets/card-9.png" alt="Treasury" fetchpriority="high" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </div>
         </div>
       </section>
