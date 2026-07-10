@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import Preloader from './components/Preloader'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import TreasuryPage from './pages/TreasuryPage'
@@ -23,9 +24,17 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [ready, setReady] = useState(false)
+
   return (
     <>
+      <Preloader onDone={() => setReady(true)} />
       <ScrollToTop />
+      <div style={{
+        opacity: ready ? 1 : 0,
+        transition: 'opacity 0.5s cubic-bezier(.22,1,.36,1)',
+      }}>
+      {ready && (
       <Routes>
         <Route path="/"                         element={<HomePage />} />
         <Route path="/about"                    element={<AboutPage />} />
@@ -41,6 +50,8 @@ export default function App() {
         <Route path="/admin/post/new"           element={<AdminEditPage />} />
         <Route path="/admin/post/edit/:slug"    element={<AdminEditPage />} />
       </Routes>
+      )}
+      </div>
     </>
   )
 }
