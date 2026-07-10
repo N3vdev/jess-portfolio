@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Img from '../components/Img'
+import CountUp from '../components/CountUp'
 import { useInView } from '../hooks/useInView'
 import { getPosts } from '../data/postStore'
 
@@ -182,7 +183,7 @@ export default function HomePage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '28px' }}>
           {STATS.map((s, i) => (
             <div key={s.num} className={`reveal d${i} ${statsIn ? 'in-view' : ''}`} style={{ textAlign: 'center' }}>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(24px,3vw,36px)', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{s.num}</p>
+              <CountUp value={s.num} start={statsIn} style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(24px,3vw,36px)', fontWeight: 800, color: '#fff', lineHeight: 1 }} />
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.6)', marginTop: '6px', letterSpacing: '0.03em' }}>{s.label}</p>
             </div>
           ))}
