@@ -20,21 +20,11 @@ export default function Navbar() {
   const solid = !isHome || scrolled
 
   useEffect(() => {
-    const navEl = navRef.current
-    const section = navEl?.parentElement?.querySelector('section')
-    const onScroll = () => {
-      const navH = navEl ? navEl.offsetHeight : 68
-      if (!section) { setScrolled(window.scrollY > navH); return }
-      // Switch once the first section (hero) has scrolled up past the navbar.
-      setScrolled(section.getBoundingClientRect().bottom <= navH + 2)
-    }
+    // Transparent only at the very top; frost in smoothly after a little scroll.
+    const onScroll = () => setScrolled(window.scrollY > 40)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [pathname])
 
   return (
