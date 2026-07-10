@@ -42,7 +42,7 @@ export default function SpeakingPage() {
             >Invite Me to Speak</Link>
           </div>
           <div className="he-photo" style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 60px rgba(0,0,0,0.10)', aspectRatio: '4/3' }}>
-            <Img src="Assets/card-2.jpg" alt="Jessly speaking" fetchpriority="high" style={{ objectFit: 'cover' }} />
+            <Img src="Assets/card-1-cropped.jpg" alt="Jessly speaking" fetchpriority="high" style={{ objectFit: 'cover' }} />
           </div>
         </div>
       </section>

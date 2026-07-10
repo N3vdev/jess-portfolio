@@ -9,22 +9,22 @@ import { getPosts } from '../data/postStore'
 const PILLARS = [
   {
     to: '/treasury', label: 'Treasury', sub: 'Finance & Strategy',
-    img: 'Assets/card-9.png',
+    img: 'Assets/card-3-cropped.png',
     grad: 'linear-gradient(to top, rgba(18,62,122,0.82) 0%, rgba(18,62,122,0.22) 55%, transparent 100%)',
   },
   {
     to: '/speaking', label: 'Speaking & Leadership', sub: 'Communication & Growth',
-    img: 'Assets/card-2.jpg',
+    img: 'Assets/card-1-cropped.jpg',
     grad: 'linear-gradient(to top, rgba(100,28,56,0.82) 0%, rgba(100,28,56,0.22) 55%, transparent 100%)',
   },
   {
     to: '/adventures', label: 'Adventures', sub: 'Beyond the Comfort Zone',
-    img: 'Assets/card-1.jpg',
+    img: 'Assets/card-2.jpg',
     grad: 'linear-gradient(to top, rgba(20,60,36,0.84) 0%, rgba(20,60,36,0.22) 55%, transparent 100%)',
   },
   {
     to: '/health', label: 'Health & Fitness', sub: 'Discipline & Resilience',
-    img: 'Assets/card-8.png',
+    img: 'Assets/card-4.jpg',
     grad: 'linear-gradient(to top, rgba(110,58,10,0.82) 0%, rgba(110,58,10,0.22) 55%, transparent 100%)',
   },
 ]

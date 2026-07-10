@@ -34,7 +34,7 @@ export default function TreasuryPage() {
             </p>
           </div>
           <div className="he-photo" style={{ borderRadius: '20px', overflow: 'hidden', boxShadow: '0 16px 60px rgba(18,62,122,0.12)', aspectRatio: '4/3' }}>
-            <Img src="Assets/card-9.png" alt="Treasury" fetchpriority="high" style={{ objectFit: 'cover' }} />
+            <Img src="Assets/card-3-cropped.png" alt="Treasury" fetchpriority="high" style={{ objectFit: 'cover' }} />
           </div>
         </div>
       </section>

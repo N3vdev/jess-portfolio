@@ -6,6 +6,7 @@ const BASE = import.meta.env.BASE_URL || './'
 const IMAGES = [
   'card-1.jpg', 'card-2.jpg', 'card-3.png', 'card-4.jpg', 'card-5.jpg',
   'card-6.jpg', 'card-7.jpg', 'card-8.png', 'card-9.png',
+  'card-1-cropped.jpg', 'card-3-cropped.png',
 ].map(f => `${BASE}Assets/${f}`)
 
 const MIN_DURATION = 550   // keep the screen on-screen at least this long (ms)
