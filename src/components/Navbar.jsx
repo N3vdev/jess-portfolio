@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const LINKS = [
@@ -12,27 +12,43 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
+  const navRef = useRef(null)
 
   const active = (to) => pathname === to
+  const isHome = pathname === '/'
+  // Solid (frosted) background everywhere except while the homepage hero is in view.
+  const solid = !isHome || scrolled
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const navEl = navRef.current
+    const section = navEl?.parentElement?.querySelector('section')
+    const onScroll = () => {
+      const navH = navEl ? navEl.offsetHeight : 68
+      if (!section) { setScrolled(window.scrollY > navH); return }
+      // Switch once the first section (hero) has scrolled up past the navbar.
+      setScrolled(section.getBoundingClientRect().bottom <= navH + 2)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [pathname])
 
   return (
     <nav
+      ref={navRef}
       className="site-nav"
       style={{
         position: 'sticky', top: 0, zIndex: 200,
-        background: scrolled ? 'rgba(252,250,248,0.85)' : 'rgba(252,250,248,0.55)',
-        backdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
-        WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
-        borderBottom: scrolled ? '1px solid rgba(18,62,122,0.08)' : '1px solid rgba(18,62,122,0)',
-        boxShadow: scrolled ? '0 6px 28px rgba(18,62,122,0.07)' : '0 0 0 rgba(0,0,0,0)',
-        transition: 'background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease',
+        background: solid ? 'rgba(252,250,248,0.85)' : 'transparent',
+        backdropFilter: solid ? 'blur(16px)' : 'none',
+        WebkitBackdropFilter: solid ? 'blur(16px)' : 'none',
+        borderBottom: solid ? '1px solid rgba(18,62,122,0.08)' : '1px solid transparent',
+        boxShadow: solid ? '0 6px 28px rgba(18,62,122,0.07)' : '0 0 0 rgba(0,0,0,0)',
+        transition: 'background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease',
       }}
     >
       <div style={{

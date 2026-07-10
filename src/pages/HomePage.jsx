@@ -81,6 +81,7 @@ export default function HomePage() {
         position: 'relative', overflow: 'hidden',
         minHeight: 'clamp(540px, 82vh, 760px)',
         display: 'flex', alignItems: 'center',
+        marginTop: '-72px', paddingTop: '72px',   // pull up behind the transparent navbar
       }}>
         {/* Background image */}
         <Img
