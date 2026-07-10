@@ -60,7 +60,6 @@ function TiltCard({ children, style, className, onClickLink }) {
 }
 
 export default function HomePage() {
-  const heroRef = useRef(null)
   const [mounted, setMounted] = useState(false)
   const [statsRef, statsIn] = useInView()
   const [pillarsRef, pillarsIn] = useInView()
@@ -73,123 +72,108 @@ export default function HomePage() {
     return () => cancelAnimationFrame(t)
   }, [])
 
-  const onSpotlight = (e) => {
-    const el = heroRef.current
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    el.style.setProperty('--mx', `${((e.clientX - r.left) / r.width * 100).toFixed(1)}%`)
-    el.style.setProperty('--my', `${((e.clientY - r.top)  / r.height * 100).toFixed(1)}%`)
-  }
-
   return (
     <div style={{ minHeight: '100vh', background: '#FCFAF8' }}>
       <Navbar />
 
       {/* ── Hero ────────────────────────────────────────────────── */}
-      <section
-        ref={heroRef}
-        className="spotlight"
-        onMouseMove={onSpotlight}
-        style={{ padding: 'clamp(56px,8vh,96px) 32px clamp(48px,6vh,80px)' }}
-      >
-        <div className={`r-hero${mounted ? ' hero-enter' : ''}`} style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          {/* Left text */}
-          <div>
-            <span className="he-0" style={{
-              fontFamily: "'Manrope', sans-serif", fontSize: '11px', fontWeight: 700,
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: '#fff', background: '#123E7A',
-              display: 'inline-block', padding: '5px 14px', borderRadius: '999px',
-              marginBottom: '28px',
-            }}>Treasury · Leadership · Adventure · Growth</span>
+      <section style={{
+        position: 'relative', overflow: 'hidden',
+        minHeight: 'clamp(540px, 82vh, 760px)',
+        display: 'flex', alignItems: 'center',
+      }}>
+        {/* Background image */}
+        <Img
+          src="Assets/hero img.png"
+          alt="Jessly Chettaniyal"
+          fetchpriority="high"
+          wrapStyle={{ position: 'absolute', inset: 0 }}
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+        />
+        {/* Readability scrim (light, fades left→right) */}
+        <div className="hero-scrim" style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to right, rgba(252, 250, 248, 0.36) 0%, rgba(252,250,248,0.86) 26%, rgba(252,250,248,0.45) 50%, rgba(252,250,248,0) 72%)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Content */}
+        <div className={`hero-inner${mounted ? ' hero-enter' : ''}`} style={{
+          position: 'relative', width: '100%',
+          maxWidth: '1200px', margin: '0 auto',
+          padding: '0 32px',
+        }}>
+          <div style={{ maxWidth: '560px' }}>
+            <p className="he-0" style={{
+              fontFamily: "'Manrope', sans-serif", fontSize: '13px', fontWeight: 700,
+              letterSpacing: '0.22em', textTransform: 'uppercase',
+              color: '#C08497', marginBottom: '22px',
+            }}>Welcome to My Journey</p>
 
             <h1 className="he-1" style={{
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: 'clamp(40px, 5.5vw, 72px)',
-              fontWeight: 800, color: '#123E7A',
-              lineHeight: 1.05, letterSpacing: '-0.025em',
-              marginBottom: '22px',
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 'clamp(46px, 6.2vw, 86px)',
+              fontWeight: 600, color: '#123E7A',
+              lineHeight: 1.04, letterSpacing: '-0.01em',
+              marginBottom: '24px',
             }}>
               Building a<br />
-              Stronger <span style={{ fontFamily: "'Caveat', cursive", fontSize: '0.92em' }}>Me</span>
-              <span style={{ color: '#F7D7DC' }}>.</span>
+              Stronger Me<span style={{ color: '#E8A0AE' }}>.</span>
             </h1>
+
+            {/* Divider */}
+            <div className="he-2" style={{ width: '64px', height: '2px', background: '#E8A0AE', marginBottom: '24px' }} />
 
             <p className="he-2" style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: 'clamp(15px, 1.3vw, 18px)',
-              color: 'rgba(47,52,58,0.78)', lineHeight: 1.75,
-              marginBottom: '36px', maxWidth: '440px',
+              fontSize: 'clamp(17px, 1.5vw, 21px)',
+              color: '#2F343A', lineHeight: 1.5,
+              marginBottom: '22px', maxWidth: '380px', fontWeight: 400,
             }}>
-              Treasury Manager. Speaker. Toastmasters leader. Adventurer.<br />
-              One purpose — to grow, lead, and inspire.
+              Through finance, leadership, adventure, and continuous growth.
             </p>
 
-            <div className="he-3" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <div className="he-3" style={{
+              display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px',
+              marginBottom: '34px',
+            }}>
+              {['Treasury Manager', 'Speaker', 'Toastmasters Leader', 'Adventurer'].map((role, i) => (
+                <span key={role} style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+                  {i > 0 && <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#E8A0AE', display: 'inline-block' }} />}
+                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', fontWeight: 500, color: '#5A6068' }}>{role}</span>
+                </span>
+              ))}
+            </div>
+
+            <div className="he-3" style={{ display: 'flex', alignItems: 'center', gap: '18px', flexWrap: 'wrap' }}>
               <Link to="/about" className="btn-press" style={{
                 background: '#123E7A', color: '#fff',
-                padding: '14px 30px', borderRadius: '999px',
-                fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700,
+                padding: '15px 32px', borderRadius: '999px',
+                fontFamily: "'Manrope', sans-serif", fontSize: '15px', fontWeight: 700,
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
-                boxShadow: '0 6px 24px rgba(18,62,122,0.22)',
+                boxShadow: '0 8px 28px rgba(18,62,122,0.28)',
                 transition: 'transform 0.15s, box-shadow 0.15s, background 0.15s',
               }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#0e2f5e'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 32px rgba(18,62,122,0.30)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = '#123E7A'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 24px rgba(18,62,122,0.22)' }}
-              >My Journey <span style={{ opacity: 0.7 }}>→</span></Link>
-              <Link to="/blogs" className="btn-press" style={{
-                background: '#fff', color: '#123E7A',
-                padding: '14px 30px', borderRadius: '999px',
-                fontFamily: "'Manrope', sans-serif", fontSize: '14px', fontWeight: 700,
-                border: '1.5px solid rgba(18,62,122,0.18)',
-                transition: 'border-color 0.15s, transform 0.15s',
+                onMouseEnter={e => { e.currentTarget.style.background = '#0e2f5e'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 36px rgba(18,62,122,0.36)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = '#123E7A'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(18,62,122,0.28)' }}
+              >Explore My Journey</Link>
+              <Link to="/treasury" style={{
+                color: '#123E7A', fontFamily: "'Manrope', sans-serif", fontSize: '15px', fontWeight: 700,
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                transition: 'gap 0.15s',
               }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = '#123E7A'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(18,62,122,0.18)'; e.currentTarget.style.transform = 'translateY(0)' }}
-              >Read the Journal</Link>
-            </div>
-          </div>
-
-          {/* Photo */}
-          <div className="he-photo hero-photo-hide" style={{ position: 'relative', paddingBottom: '24px', paddingRight: '24px' }}>
-            <div style={{
-              position: 'absolute', bottom: 0, right: 0,
-              width: 'calc(100% - 20px)', height: 'calc(100% - 20px)',
-              background: '#F7D7DC', borderRadius: '28px',
-            }} />
-            <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', aspectRatio: '4/5', boxShadow: '0 32px 80px rgba(18,62,122,0.14)' }}>
-              <Img src="Assets/card-6.jpg" alt="Jessly Chettaniyal"
-                fetchpriority="high"
-                style={{ objectFit: 'cover' }}
-              />
-            </div>
-            {/* Floating stat cards */}
-            <div className="float-1" style={{
-              position: 'absolute', bottom: '-4px', left: '-20px',
-              background: '#fff', borderRadius: '16px', padding: '14px 18px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.10)', border: '1px solid rgba(18,62,122,0.06)',
-            }}>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '24px', fontWeight: 800, color: '#123E7A', lineHeight: 1 }}>10+</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: '#2F343A', opacity: 0.6, marginTop: '3px' }}>Years in Finance</p>
-            </div>
-            <div className="float-2" style={{
-              position: 'absolute', top: '28px', right: '-4px',
-              background: '#123E7A', borderRadius: '16px', padding: '14px 18px',
-              boxShadow: '0 8px 32px rgba(18,62,122,0.30)',
-            }}>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '24px', fontWeight: 800, color: '#fff', lineHeight: 1 }}>CTP®</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', color: 'rgba(255,255,255,0.65)', marginTop: '3px' }}>Certified</p>
-            </div>
-            <div className="float-3" style={{
-              position: 'absolute', top: '44%', left: '-28px',
-              background: '#F7D7DC', borderRadius: '14px', padding: '12px 16px',
-              boxShadow: '0 6px 24px rgba(0,0,0,0.08)',
-            }}>
-              <p style={{ fontFamily: "'Manrope', sans-serif", fontSize: '20px', fontWeight: 800, color: '#123E7A', lineHeight: 1 }}>15+</p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', color: '#2F343A', opacity: 0.6, marginTop: '2px' }}>Clubs Chartered</p>
+                onMouseEnter={e => e.currentTarget.style.gap = '12px'}
+                onMouseLeave={e => e.currentTarget.style.gap = '8px'}
+              >Learn More <span aria-hidden="true">→</span></Link>
             </div>
           </div>
         </div>
+
+        <style>{`
+          @media (max-width: 760px) {
+            .hero-scrim { background: linear-gradient(to right, rgba(252,250,248,0.97) 0%, rgba(252,250,248,0.9) 55%, rgba(252,250,248,0.55) 100%) !important; }
+          }
+        `}</style>
       </section>
 
       {/* ── Stats strip ─────────────────────────────────────────── */}
