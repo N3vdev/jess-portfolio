@@ -25,6 +25,7 @@ function ScrollToTop() {
 
 export default function App() {
   const [ready, setReady] = useState(false)
+  const location = useLocation()
 
   return (
     <>
@@ -35,7 +36,8 @@ export default function App() {
         transition: 'opacity 0.5s cubic-bezier(.22,1,.36,1)',
       }}>
       {ready && (
-      <Routes>
+      <div key={location.pathname} className="page-fade">
+      <Routes location={location}>
         <Route path="/"                         element={<HomePage />} />
         <Route path="/about"                    element={<AboutPage />} />
         <Route path="/treasury"                 element={<TreasuryPage />} />
@@ -50,6 +52,7 @@ export default function App() {
         <Route path="/admin/post/new"           element={<AdminEditPage />} />
         <Route path="/admin/post/edit/:slug"    element={<AdminEditPage />} />
       </Routes>
+      </div>
       )}
       </div>
     </>

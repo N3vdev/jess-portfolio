@@ -57,6 +57,32 @@ input, textarea, button { font-family: inherit; }
   0%, 100% { background-position: 0% 50%; }
   50%       { background-position: 100% 50%; }
 }
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes navDrop {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Page transition on route change */
+.page-fade {
+  animation: pageFade 0.42s cubic-bezier(.22,1,.36,1) both;
+  will-change: opacity, transform;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .page-fade, .reveal, .reveal-left, .reveal-right, .reveal-scale,
+  .hero-enter .he-0, .hero-enter .he-1, .hero-enter .he-2,
+  .hero-enter .he-3, .hero-enter .he-4, .hero-enter .he-photo {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /* ── Scroll-reveal base (toggled by useInView) ─────────────── */
 .reveal {

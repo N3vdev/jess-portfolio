@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const LINKS = [
@@ -10,26 +10,41 @@ const LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const { pathname } = useLocation()
 
   const active = (to) => pathname === to
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <nav style={{
-      position: 'sticky', top: 0, zIndex: 200,
-      background: 'rgba(252,250,248,0.94)',
-      backdropFilter: 'blur(14px)',
-      borderBottom: '1px solid rgba(18,62,122,0.08)',
-    }}>
+    <nav
+      className="site-nav"
+      style={{
+        position: 'sticky', top: 0, zIndex: 200,
+        background: scrolled ? 'rgba(252,250,248,0.85)' : 'rgba(252,250,248,0.55)',
+        backdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+        WebkitBackdropFilter: scrolled ? 'blur(16px)' : 'blur(8px)',
+        borderBottom: scrolled ? '1px solid rgba(18,62,122,0.08)' : '1px solid rgba(18,62,122,0)',
+        boxShadow: scrolled ? '0 6px 28px rgba(18,62,122,0.07)' : '0 0 0 rgba(0,0,0,0)',
+        transition: 'background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease',
+      }}
+    >
       <div style={{
         maxWidth: '1200px', margin: '0 auto',
         padding: '0 32px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: '68px',
+        height: scrolled ? '62px' : '72px',
+        transition: 'height 0.35s ease',
       }}>
 
         {/* Logo */}
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/" className="nav-logo" style={{ textDecoration: 'none' }}>
           <div style={{ lineHeight: 1 }}>
             <div style={{ fontFamily: "'Caveat', cursive", fontSize: '26px', fontWeight: 700, color: '#123E7A' }}>Jessly</div>
             <div style={{ fontFamily: "'Manrope', sans-serif", fontSize: '8.5px', fontWeight: 700, color: '#123E7A', letterSpacing: '0.18em', opacity: 0.55, marginTop: '-2px' }}>CHETTANIYAL</div>
@@ -37,39 +52,37 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '26px' }} className="nav-desktop">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '30px' }} className="nav-desktop">
           {LINKS.map(l => (
-            <Link key={l.to} to={l.to} style={{
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: '13px', fontWeight: active(l.to) ? 700 : 500,
-              color: active(l.to) ? '#123E7A' : '#2F343A',
-              textDecoration: 'none',
-              whiteSpace: 'nowrap',
-              paddingBottom: '2px',
-              borderBottom: active(l.to) ? '2px solid #123E7A' : '2px solid transparent',
-              transition: 'color 0.15s',
-            }}>{l.label}</Link>
+            <Link
+              key={l.to} to={l.to}
+              className={`nav-link${active(l.to) ? ' active' : ''}`}
+              style={{
+                fontFamily: "'Manrope', sans-serif",
+                fontSize: '13px', fontWeight: active(l.to) ? 700 : 500,
+                color: active(l.to) ? '#123E7A' : '#2F343A',
+                textDecoration: 'none', whiteSpace: 'nowrap',
+              }}
+            >{l.label}</Link>
           ))}
-          <Link to="/contact" style={{
+          <Link to="/contact" className="nav-cta" style={{
             background: '#123E7A', color: '#fff',
             padding: '9px 22px', borderRadius: '999px',
             fontFamily: "'Manrope', sans-serif",
             fontSize: '13px', fontWeight: 700,
             textDecoration: 'none', whiteSpace: 'nowrap',
-            transition: 'background 0.15s',
+            boxShadow: '0 4px 16px rgba(18,62,122,0.20)',
+            transition: 'background 0.18s, transform 0.18s, box-shadow 0.18s',
           }}
-            onMouseEnter={e => e.currentTarget.style.background = '#0e2f5e'}
-            onMouseLeave={e => e.currentTarget.style.background = '#123E7A'}
+            onMouseEnter={e => { e.currentTarget.style.background = '#0e2f5e'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 8px 22px rgba(18,62,122,0.30)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = '#123E7A'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(18,62,122,0.20)' }}
           >Let's Connect</Link>
         </div>
 
         {/* Hamburger */}
         <button
           onClick={() => setOpen(!open)}
-          style={{
-            display: 'none', background: 'none', border: 'none',
-            cursor: 'pointer', padding: '4px', color: '#123E7A',
-          }}
+          style={{ display: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#123E7A' }}
           className="nav-burger"
           aria-label="menu"
         >
@@ -81,13 +94,15 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      {open && (
-        <div style={{
-          background: '#FCFAF8',
-          borderTop: '1px solid rgba(18,62,122,0.08)',
-          padding: '16px 32px 24px',
-          display: 'flex', flexDirection: 'column', gap: '14px',
-        }}>
+      <div style={{
+        overflow: 'hidden',
+        maxHeight: open ? '340px' : '0px',
+        opacity: open ? 1 : 0,
+        transition: 'max-height 0.4s cubic-bezier(.22,1,.36,1), opacity 0.3s ease',
+        background: 'rgba(252,250,248,0.98)',
+        borderTop: open ? '1px solid rgba(18,62,122,0.08)' : '1px solid transparent',
+      }}>
+        <div style={{ padding: '16px 32px 24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {LINKS.map(l => (
             <Link key={l.to} to={l.to} onClick={() => setOpen(false)} style={{
               fontFamily: "'Manrope', sans-serif",
@@ -105,12 +120,28 @@ export default function Navbar() {
             textAlign: 'center', marginTop: '4px',
           }}>Let's Connect</Link>
         </div>
-      )}
+      </div>
 
       <style>{`
+        .site-nav { animation: navDrop 0.5s cubic-bezier(.22,1,.36,1) both; }
+        .nav-logo { transition: transform 0.2s cubic-bezier(.22,1,.36,1); display: inline-block; }
+        .nav-logo:hover { transform: scale(1.04); }
+        .nav-link { position: relative; padding-bottom: 3px; transition: color 0.18s; }
+        .nav-link::after {
+          content: ''; position: absolute; left: 0; bottom: 0;
+          height: 2px; width: 0; border-radius: 2px;
+          background: #123E7A;
+          transition: width 0.28s cubic-bezier(.22,1,.36,1);
+        }
+        .nav-link:hover { color: #123E7A; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active::after { width: 100%; }
         @media (max-width: 860px) {
           .nav-desktop { display: none !important; }
           .nav-burger  { display: block !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .site-nav { animation: none !important; }
         }
       `}</style>
     </nav>
