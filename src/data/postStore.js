@@ -1,74 +1,56 @@
 import { posts as defaultPosts } from './posts'
 
-const KEY = 'jess_posts'
-const PINS_KEY = 'jess_pins'
+// ── In-memory store (no persistence) ──────────────────────────
+// The 4 default posts come from posts.js and are the source of truth.
+// Posts added/edited via the admin panel live only in memory and reset
+// on page reload — a temporary preview until a real database is wired up.
+
+let posts = [...defaultPosts]
+let pins = []
 
 export function getPosts() {
-  try {
-    const s = localStorage.getItem(KEY)
-    if (s) return JSON.parse(s)
-  } catch {}
-  return defaultPosts
+  return posts
 }
 
 export function getPost(slug) {
-  return getPosts().find(p => p.slug === slug) || null
-}
-
-function save(posts) {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(posts))
-    return { ok: true }
-  } catch (e) {
-    if (e.name === 'QuotaExceededError' || e.code === 22) {
-      return { ok: false, reason: 'quota' }
-    }
-    return { ok: false, reason: 'unknown' }
-  }
+  return posts.find(p => p.slug === slug) || null
 }
 
 export function addPost(post) {
-  return save([...getPosts(), { ...post, createdAt: Date.now() }])
+  posts = [...posts, { ...post, createdAt: Date.now() }]
+  return { ok: true }
 }
 
 export function updatePost(slug, data) {
-  return save(getPosts().map(p => p.slug === slug ? { ...p, ...data } : p))
+  posts = posts.map(p => p.slug === slug ? { ...p, ...data } : p)
+  return { ok: true }
 }
 
 export function deletePost(slug) {
-  const result = save(getPosts().filter(p => p.slug !== slug))
+  posts = posts.filter(p => p.slug !== slug)
   unpinPost(slug)
-  return result
+  return { ok: true }
 }
 
 export function slugify(title) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 }
 
-// --- Pins ---
+// ── Pins (in-memory) ──────────────────────────────────────────
 
 export function getPinnedSlugs() {
-  try {
-    const s = localStorage.getItem(PINS_KEY)
-    if (s) return JSON.parse(s)
-  } catch {}
-  return []
-}
-
-function savePins(pins) {
-  localStorage.setItem(PINS_KEY, JSON.stringify(pins))
+  return pins
 }
 
 export function pinPost(slug) {
-  const pins = getPinnedSlugs()
   if (pins.includes(slug)) return { ok: true }
   if (pins.length >= 4) return { ok: false }
-  savePins([...pins, slug])
+  pins = [...pins, slug]
   return { ok: true }
 }
 
 export function unpinPost(slug) {
-  savePins(getPinnedSlugs().filter(s => s !== slug))
+  pins = pins.filter(s => s !== slug)
 }
 
 function parsePostDate(p) {
@@ -82,7 +64,6 @@ function parsePostDate(p) {
 // Pinned first (in pin order), then most-recently-added, capped at 4
 export function getHomePosts() {
   const all = getPosts()
-  const pins = getPinnedSlugs()
   const pinned = pins.map(slug => all.find(p => p.slug === slug)).filter(Boolean)
   const recent = all
     .filter(p => !pins.includes(p.slug))
