@@ -84,7 +84,7 @@ export default function HomePage() {
       }}>
         {/* Background image */}
         <Img
-          src="Assets/hero img.png"
+          src="Assets/hero.png"
           alt="Jessly Chettaniyal"
           fetchpriority="high"
           wrapStyle={{ position: 'absolute', inset: 0 }}
@@ -203,7 +203,7 @@ export default function HomePage() {
                   className={`reveal d${i} ${pillarsIn ? 'in-view' : ''}`}
                   style={{
                     borderRadius: '24px', overflow: 'hidden',
-                    height: i < 2 ? '340px' : '260px',
+                    height: '300px',
                     background: '#111', cursor: 'pointer',
                     boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
                     position: 'relative',
