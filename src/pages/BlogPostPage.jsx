@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getPost, getPosts } from '../data/postStore'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Img from '../components/Img'
 
 const pill = (p) => ({
   display: 'inline-block',
@@ -97,8 +98,8 @@ export default function BlogPostPage() {
         <div style={{ width: '40px', height: '2px', background: 'rgba(18,62,122,0.2)', borderRadius: '2px', marginBottom: post.image ? '32px' : '40px' }} />
 
         {post.image && (
-          <div style={{ marginBottom: '44px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(18,62,122,0.12)' }}>
-            <img src={post.image} alt={post.title} loading="lazy" style={{ width: '100%', maxHeight: '460px', objectFit: 'cover', display: 'block' }} />
+          <div style={{ marginBottom: '44px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(18,62,122,0.12)', maxHeight: '460px' }}>
+            <Img src={post.image} alt={post.title} loading="lazy" style={{ objectFit: 'cover', maxHeight: '460px' }} />
           </div>
         )}
 
