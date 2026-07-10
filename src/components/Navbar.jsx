@@ -2,13 +2,10 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const LINKS = [
-  { label: 'Home',                to: '/' },
-  { label: 'About',               to: '/about' },
-  { label: 'Treasury',            to: '/treasury' },
-  { label: 'Speaking',            to: '/speaking' },
-  { label: 'Adventures',          to: '/adventures' },
-  { label: 'Health & Fitness',    to: '/health' },
-  { label: 'Journal',             to: '/blogs' },
+  { label: 'Home',      to: '/' },
+  { label: 'About',     to: '/about' },
+  { label: 'Treasury',  to: '/treasury' },
+  { label: 'Blogs',     to: '/blogs' },
 ]
 
 export default function Navbar() {
